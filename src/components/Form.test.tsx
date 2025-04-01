@@ -12,7 +12,6 @@ describe("Testes do Form", () => {
     screen.getByRole("button", { name: "Enviar" });
     screen.getByText(/lista vazia/i);
   });
-
   test("Deve adicionar um item à lista", async () => {
     // arrange
     const user = userEvent.setup();
@@ -29,7 +28,6 @@ describe("Testes do Form", () => {
     expect(listItems).toHaveLength(1);
     screen.getByText("Item 1");
   });
-
   test('se as classes "hidden first-of-type:block" presentes na <li> estão condicionando sua exibição', async () => {
     // Arrange: Configuração do cenário inicial
     const user = userEvent.setup();
@@ -46,5 +44,26 @@ describe("Testes do Form", () => {
 
     // Assert final: Após adicionar o item, o primeiro <li> deve ser "Item 1"
     expect(ul.firstElementChild).toHaveTextContent("Item 1");
+  });
+  test("deve remover o item da lista ao clicar no botão de excluir", async () => {
+    // 🟢 Arrange: Configura o ambiente e adiciona um item
+    const user = userEvent.setup();
+    render(<Form />);
+    const input = screen.getByRole("textbox", { name: /adicione um item/i });
+    await user.type(input, "Item 1");
+    await user.keyboard("{Enter}");
+    // Obtém o item adicionado e o botão de remoção
+    // ‼️com o getByText, se não estiver em tela o teste FALHARÁ
+    const addedItem = screen.getByText("Item 1");
+    const deleteButton = screen.getByRole("button", { name: 'Remover item "Item 1"' });
+    expect(addedItem).toBeInTheDocument();
+    // 🔴 Act: Clica no botão de remover
+    await user.click(deleteButton);
+    // 🔵 Assert: Verifica se o item foi removido
+    // ‼️com o queryByText, se não estiver em tela o teste NÃO falhará
+    const item = screen.queryByText("Item 1");
+    expect(item).toBeNull();
+    // expect(addedItem).not.toBeInTheDocument();
+    // expect(screen.getByText("Lista vazia")).toBeInTheDocument();
   });
 });

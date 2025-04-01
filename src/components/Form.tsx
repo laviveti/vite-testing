@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "./Button";
+import { Button } from "./button";
 
 export const Form = (props: React.ComponentProps<"form">) => {
   const [items, setItems] = useState<string[]>([]);
@@ -60,6 +60,7 @@ export const Form = (props: React.ComponentProps<"form">) => {
             {item}
             <Button
               type='button'
+              aria-label={`Remover item "${item}"`}
               onClick={() => handleRemoveItem(index)}
               className='bg-white hover:bg-red-100 border border-red-400 cursor-pointer text-white px-3 py-1 rounded-md transition-all'>
               ❌
@@ -67,7 +68,6 @@ export const Form = (props: React.ComponentProps<"form">) => {
           </li>
         ))}
 
-        {/* {items.length === 0 && <li>Nenhum item adicionado</li>} */}
         <li className='hidden first-of-type:block'>Lista vazia</li>
       </ul>
     </form>
