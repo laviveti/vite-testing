@@ -67,8 +67,8 @@ export const Form = (props: React.ComponentProps<"form">) => {
           </li>
         ))}
 
-        {items.length === 0 && <li>Nenhum item adicionado</li>}
-        {/* <li className='hidden first-of-type:block'>Lista vazia</li> */}
+        {/* {items.length === 0 && <li>Nenhum item adicionado</li>} */}
+        <li className='hidden first-of-type:block'>Lista vazia</li>
       </ul>
     </form>
   );
