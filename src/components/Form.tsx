@@ -1,9 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "./button";
+import axios from "axios";
+
+export type Todo = {
+  userId: number;
+  id: number;
+  title: string;
+  completed: boolean;
+};
+
+export const API_URL = "https://jsonplaceholder.typicode.com/todos?_limit=3";
 
 export const Form = (props: React.ComponentProps<"form">) => {
   const [items, setItems] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState("");
+
+  useEffect(() => {
+    axios.get<Todo[]>(API_URL).then((res) => setItems(res.data.map((todo) => todo.title)));
+  }, []);
 
   const handleButtonClick = () => {
     if (inputValue.trim() !== "") {
